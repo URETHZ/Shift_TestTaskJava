@@ -21,13 +21,17 @@ public class Saver implements ISaver
             }
         }
         //создаем несуществующие папки в пути, даже если их несколько
-        File testPath = new File(path);
-        if(!testPath.exists()){
-            System.out.println("Создание нового каталога "+ testPath.getPath());
-            if(!testPath.mkdirs()) throw new RuntimeException("Ошибка при создании директории результатов");
+        if(!path.isEmpty()) {
+            File testPath = new File(path);
+            if (!testPath.exists()) {
+                System.out.println("Создание нового каталога " + testPath.getPath());
+                if (!testPath.mkdirs()) throw new RuntimeException("Ошибка при создании директории результатов");
+            }
+            path = testPath.getPath()+"/";
         }
-        try(FileOutputStream out = new FileOutputStream(testPath.getPath()+"/"+prefix+typeof+".txt", append)){
-            for(String a: data){
+        try(FileOutputStream out = new FileOutputStream(path+prefix+typeof+".txt", append)){
+            for(String a: data)
+            {
                 byte[] bytes = a.getBytes();
                 out.write(bytes);
             }
