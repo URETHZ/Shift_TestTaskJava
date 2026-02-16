@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.List;
 public interface ISorter {
-    public void Sort(List<String> Files);
-    public void getInt();
-    public void getFloat();
-    public void getString();
+    public void Sort(String Files);
+    public List<Integer> getInt();
+    public List<Float> getFloat();
+    public List<String> getString();
 
 }
