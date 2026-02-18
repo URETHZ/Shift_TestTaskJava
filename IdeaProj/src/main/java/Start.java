@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import static java.lang.IO.*;
 public class Start {
-    public static void main(String[] args) throws FileNotFoundException {
+    static void main(String[] args) throws FileNotFoundException {
         println("Утилита для сортировки входных данных по их типу.");
         List<String> inputfiles = new ArrayList<>();
-        String prefix ="", savepath =new String();
+        String prefix ="", savepath = "";
         boolean append = false, shortstat=false,longstat=false;
         for(int i=0; i<args.length;i++){
             switch (args[i]){
@@ -45,18 +45,13 @@ public class Start {
         for(String filepath:inputfiles){
             sorter.Sort(filepath);
         }
+        IStatistic stat = new Statistic(sorter);
+        if(shortstat) stat.setStatistic("-s");
+        if(longstat) stat.setStatistic("-f");
+        stat.getStatistic();
         Saver.SaveToFile(sorter.getString(),prefix, savepath, append);
         Saver.SaveToFile(sorter.getInt(),prefix, savepath, append);
         Saver.SaveToFile(sorter.getDouble(),prefix, savepath, append);
-    }
-    private static void StartSort(String path){
-
-    }
-    private static void GetStatistic(Boolean s_option, Boolean f_option){
-
-    }
-    private static void StartSave(String o_option, String p_option, Boolean a_option){
-
     }
 }
 // java -jar uXl.jar -s(-f) -a -o /path -p sample- in1.txt in2.txt
