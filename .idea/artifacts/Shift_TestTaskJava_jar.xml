@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Shift_TestTaskJava:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Shift_TestTaskJava_jar</output-path>
+    <root id="archive" name="Shift_TestTaskJava.jar">
+      <element id="module-output" name="Shift_TestTaskJava" />
+      <element id="module-output" name="build" />
+      <element id="library" level="project" name="KotlinJavaRuntime" />
+    </root>
+  </artifact>
+</component>
