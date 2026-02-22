@@ -4,21 +4,25 @@ import java.util.*;
 
 public class Statistic implements IStatistic{
     private final ISorter sorter;
-    private List<Integer> sStat;
-    private List<Double> fStat;
+    private Integer[] sStat;
+    private Integer[] IntStat;
+    private Double[] DoubleStat;
+    private Integer[] StringStat;
     public void setStatistic(String option){
+        if(sorter==null) return;
         try {
-            switch (option) {
+            switch (option)
+            {
                 case ("-s"): {
-                    sStat=new ArrayList<>();
-                    sStat.add(sorter.getInt().size());
-                    sStat.add(sorter.getDouble().size());
-                    sStat.add(sorter.getString().size());
+                    sStat=new Integer[3];
+                    sStat[0]=sorter.getInt().size();
+                    sStat[1]=sorter.getDouble().size();
+                    sStat[2]=sorter.getString().size();
                     return;
                 }
                 case ("-f"): {
-                    fStat=new ArrayList<>();
-                    setStatistic("-s");
+
+                    if(sStat==null){ setStatistic("-s"); }
                     //преобразуем String - коллекции для поиска min max average sum
                     List<Integer> newIntList = new ArrayList<>();
                     List<Double> newDoubleList = new ArrayList<>();
@@ -28,35 +32,44 @@ public class Statistic implements IStatistic{
                     for (String a : sorter.getDouble()) {
                         newDoubleList.add(Double.parseDouble(a.trim()));
                     }
-                    //min max
-                    fStat.add(Collections.min(newIntList).doubleValue());
-                    fStat.add(Collections.max(newIntList).doubleValue());
-                    double sum = 0;
-                    for (int num : newIntList) {
-                        sum += num;
+                    //Integer : min max sum average
+                    if(!newIntList.isEmpty()){
+                        IntStat=new Integer[4];
+                        IntStat[0] = Collections.min(newIntList);
+                        IntStat[1] = Collections.max(newIntList);
+                        int sum1 = 0;
+                        for (int num : newIntList) {
+                            sum1 += num;
+                        }
+                        //сумма int
+                        IntStat[2] = sum1;
+                        //среднее int
+                        IntStat[3] = sum1 / newIntList.size();
                     }
-                    //сумма int
-                    fStat.add(sum);
-                    //среднее int
-                    fStat.add(sum / newIntList.size());
-                    //Double
-                    fStat.add(Collections.min(newDoubleList));
-                    fStat.add(Collections.max(newDoubleList));
-                    sum = 0;
-                    for (double num : newDoubleList) {
-                        sum += num;
+                    if(!newDoubleList.isEmpty()){
+                        //Double
+                        DoubleStat=new Double[4];
+                        DoubleStat[0] = Collections.min(newDoubleList);
+                        DoubleStat[1] = Collections.max(newDoubleList);
+                        double sum2 = 0;
+                        for (double num : newDoubleList) {
+                            sum2 += num;
+                        }
+                        DoubleStat[2] = sum2;
+                        DoubleStat[3] = sum2 / newDoubleList.size();
                     }
-                    fStat.add(sum);
-                    fStat.add(sum / newDoubleList.size());
-                    //String
-                    // Строка с максимальной длиной
-                    double maxStr = Collections.max(sorter.getString(),
-                            Comparator.comparingInt(String::length)).length();
-                    // Минимальная длина
-                    double minStr = Collections.min(sorter.getString(),
-                            Comparator.comparingInt(String::length)).length();
-                    fStat.add(minStr);
-                    fStat.add(maxStr);
+                    if(!newDoubleList.isEmpty()){
+                        //String
+                        StringStat=new Integer[2];
+                        // Строка с максимальной длиной
+                        int maxStr = Collections.max(sorter.getString(),
+                                Comparator.comparingInt(String::length)).length();
+                        // Минимальная длина
+                        int minStr = Collections.min(sorter.getString(),
+                                Comparator.comparingInt(String::length)).length();
+                        StringStat[0] = minStr;
+                        StringStat[1] = maxStr;
+                    }
                     return;
                 }
                 default: {
@@ -65,33 +78,33 @@ public class Statistic implements IStatistic{
             }
         }
         catch(Exception ex){
-            throw new RuntimeException("Ошибка на этапе сбора статистики. Перезапустите утилиту.");
+            throw new RuntimeException(ex.getMessage()+"Ошибка на этапе сбора статистики. Перезапустите утилиту.");
         }
     }
-    public void getStatistic(){
-        System.out.println(this.toString());
-    }
-
     public Statistic(ISorter sorter){
         this.sorter=sorter;
     }
-    @Override
-    public String toString() {
+    public String getStatistic() {
         String str="";
-        if(!sStat.isEmpty()){
-            str += "Добавлено Integers: " + sStat.get(0) +
-                    ", Double: " + sStat.get(1) +
-                    ", String: " + sStat.get(2) + "\n";
+        if(sStat!=null){
+            str += "Добавлено Integers: " + sStat[0] +
+                    ", Double: " + sStat[1] +
+                    ", String: " + sStat[2] + "\n";
         }
-        if(!fStat.isEmpty()) {
-            str += "Integer   Мин. значение: " + fStat.getFirst().intValue()
-            + ", Макс. знач: " + fStat.get(1).intValue() + ", сумма: " + fStat.get(2).intValue()
-            + ", среднее: " + fStat.get(3) + "\nDouble    Мин. значение: " + fStat.get(4)
-                    + ", Макс. знач: " + fStat.get(5) + ", сумма: " + fStat.get(6)
-                    + ", среднее: " + fStat.get(7) + "\nString    Мин. длин. строки: "
-            + fStat.get(8) + ", Макс.: " + fStat.get(9);
+        if(IntStat!=null) {
+            str+="Integer   Мин. значение: " + IntStat[0]
+                + ", Макс. знач: " + IntStat[1] + ", сумма: " + IntStat[2]
+                + ", среднее: " + IntStat[3]+"\n";
+        }
+        if(DoubleStat!=null){
+            str+="Double    Мин. значение: " + DoubleStat[0]
+                    + ", Макс. знач: " + DoubleStat[1] + ", сумма: " + DoubleStat[2]
+                    + ", среднее: " + DoubleStat[3]+"\n";
+        }
+        if(StringStat!=null){
+            str+="String    Мин. длина строки: " + StringStat[0]
+                    + ", Макс. длина: " + StringStat[1]+"\n";
         }
         return str;
     }
-
 }

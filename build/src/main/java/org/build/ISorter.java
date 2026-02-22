@@ -6,5 +6,4 @@ public interface ISorter {
     List<String> getInt();
     List<String> getDouble();
     List<String> getString();
-
 }

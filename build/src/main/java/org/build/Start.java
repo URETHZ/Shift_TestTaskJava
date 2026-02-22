@@ -53,11 +53,12 @@ public class Start {
                 IStatistic stat = new Statistic(sorter);
                 if (shortstat) stat.setStatistic("-s");
                 if (longstat) stat.setStatistic("-f");
-                stat.getStatistic();
+                println(stat.getStatistic());
             }
             Saver.SaveToFile(sorter.getString(), prefix, savepath, append);
             Saver.SaveToFile(sorter.getInt(), prefix, savepath, append);
             Saver.SaveToFile(sorter.getDouble(), prefix, savepath, append);
+            println("Успех.");
         } catch (Exception ex) {
             println(ex.getMessage());
         }
