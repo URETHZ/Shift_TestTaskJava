@@ -8,6 +8,9 @@ public class Sorter implements ISorter
     private List<String> IntList = null;
     private List<String> DoubleList = null;
     private List<String> StringList = null;
+    /**
+     * Заполняет приватные поля данными, на вход передается путь к входному файлу.
+     */
     public void Sort(String filepath){
         try {
             List<String> input = getStrings(filepath);
@@ -30,7 +33,10 @@ public class Sorter implements ISorter
             throw new RuntimeException(ex.getMessage());
         }
     }
-
+    /**
+     * @brief Метод для работы с файлом.
+     * @return список строк, считаенных из файла
+     */
     private static List<String> getStrings(String filepath) {
         List<String> input = new ArrayList<>();
         try (FileInputStream file = new FileInputStream(filepath)) {

@@ -8,6 +8,10 @@ public class Statistic implements IStatistic{
     private Integer[] IntStat;
     private Double[] DoubleStat;
     private Integer[] StringStat;
+    /**
+     * @brief  для сбора статистики, на вход передается вариант сортировки (-f или -s)
+     * Если фалг неизвестен, создает исключение Runtime.
+     */
     public void setStatistic(String option){
         if(sorter==null) return;
         try {
@@ -84,6 +88,11 @@ public class Statistic implements IStatistic{
     public Statistic(ISorter sorter){
         this.sorter=sorter;
     }
+    /**
+     * @brief Метод для получения результата сбора статистики в виде строки.
+     * Сначала необходимо собрать статистику методом setStatistic().
+     * @return Строка-результат сбора статистики. Содержит уже готовую к выводу информацию
+     */
     public String getStatistic() {
         String str="";
         if(sStat!=null){

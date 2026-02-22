@@ -6,6 +6,10 @@ import java.util.List;
 
 public class Saver implements ISaver
 {
+    /**
+     * Статический метод сохранения для одного файла.
+     * При ошибке - создает исключения.
+     */
     public static void SaveToFile(List<String> data, String prefix, String path, boolean append) {
         if(data.isEmpty())return;
         String typeof="String";
